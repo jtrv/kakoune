@@ -841,11 +841,13 @@ struct TabulationHighlighter : Highlighter
                     {
                         if (pos != line_data + atom_it->begin().column)
                             atom_it = ++line.split(atom_it, {begin.line, ByteCount(pos - line_data)});
-                        if (pos + 1 != end)
+                        const bool last_in_atom = pos + 1 == end;
+                        if (not last_in_atom)
                             atom_it = line.split(atom_it, {begin.line, ByteCount(pos + 1 - line_data)});
 
                         atom_it->replace(String{' ', tabwidth});
-                        ++atom_it;
+                        if (not last_in_atom)
+                            ++atom_it;
                     }
                 }
 
