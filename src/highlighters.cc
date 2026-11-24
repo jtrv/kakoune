@@ -828,7 +828,8 @@ struct TabulationHighlighter : Highlighter
                     const char* next_tab = std::find(pos, end, '\t');
                     if (next_tab == end)
                     {
-                        pos = end;
+                        while (pos != end)
+                            column += codepoint_width(utf8::read_codepoint(pos, end));
                         break;
                     }
 
